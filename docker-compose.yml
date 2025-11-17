@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:14
+    container_name: cinema_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: cinema
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cinema-net
+
+    # --- HEALTHCHECK: sprawdzanie czy Postgres wstał ---
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: cinema_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"
+    networks:
+      - cinema-net
+
+    # --- czeka na gotowego Postgresa ---
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+networks:
+  cinema-net:
+
+volumes:
+  postgres_data:

@@ -1,0 +1,84 @@
+### Java ###
+*.class
+*.log
+*.ctxt
+hs_err_pid*
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+out/
+.idea_modules/
+.idea_workspace.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/compiler.xml
+.idea/libraries/
+.idea/shelf/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/httpRequests/
+.idea/dataSources/
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/sonarlint/
+.idea/caches/
+
+### Gradle ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+.gradle-cache/
+.gradle-local/
+
+### Maven (in case you switch build system) ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+### Logs ###
+logs/
+*.log
+*.out
+
+### Operating System ###
+.DS_Store
+Thumbs.db
+
+### JetBrains Fleet ###
+.fleet/
+
+### Spring ###
+application-*.yml
+application-*.yaml
+application-*.properties
+.env
+
+### Test ###
+test-output/
+reports/
+
+### Backup files ###
+*.bak
+*.swp
+*~
+
+### Coverage ###
+*.exec
+*.ec
+jacoco.exec
+build/reports/
+coverage/
+.idea/coverage/
+
+### H2 Database Files ###
+*.mv.db
+*.trace.db
+*.h2.db
+
+### Lombok ###
+lombok.config

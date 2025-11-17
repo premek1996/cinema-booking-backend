@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: cinema-booking
+
+  profiles:
+    active: dev
