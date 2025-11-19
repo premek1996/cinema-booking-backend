@@ -1,5 +1,7 @@
 package com.example.cinemabooking.common.exception;
 
+import com.example.cinemabooking.hall.service.exception.CinemaHallAlreadyExistsException;
+import com.example.cinemabooking.hall.service.exception.CinemaHallNotFoundException;
 import com.example.cinemabooking.movie.service.exception.MovieAlreadyExistsException;
 import com.example.cinemabooking.movie.service.exception.MovieNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -18,12 +20,16 @@ class GlobalExceptionHandler {
 
     private static final Map<Class<? extends Throwable>, HttpStatus> EXCEPTION_STATUS_MAP = Map.ofEntries(
             Map.entry(MovieNotFoundException.class, HttpStatus.NOT_FOUND),
-            Map.entry(MovieAlreadyExistsException.class, HttpStatus.CONFLICT)
+            Map.entry(MovieAlreadyExistsException.class, HttpStatus.CONFLICT),
+            Map.entry(CinemaHallNotFoundException.class, HttpStatus.NOT_FOUND),
+            Map.entry(CinemaHallAlreadyExistsException.class, HttpStatus.CONFLICT)
     );
 
     @ExceptionHandler({
             MovieNotFoundException.class,
-            MovieAlreadyExistsException.class
+            MovieAlreadyExistsException.class,
+            CinemaHallNotFoundException.class,
+            CinemaHallAlreadyExistsException.class
     })
     @ResponseBody
     ResponseEntity<ApiExceptionResponse> handleKnownExceptions(RuntimeException e) {
