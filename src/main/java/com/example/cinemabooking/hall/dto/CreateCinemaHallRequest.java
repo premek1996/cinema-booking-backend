@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 public class CreateCinemaHallRequest {
 
     @NotBlank
-    String name;
+    private String name;
 
     @Min(1)
-    int rows;
+    private int rows;
 
     @Min(1)
-    int seatsPerRow;
+    private int seatsPerRow;
 
 }

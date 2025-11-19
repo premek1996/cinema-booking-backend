@@ -19,22 +19,22 @@ import java.time.LocalDate;
 public class CreateMovieRequest {
 
     @NotBlank
-    String title;
+    private String title;
 
     @NotBlank
-    String description;
+    private String description;
 
     @NotBlank
-    String genre;
+    private String genre;
 
     @Min(1)
-    int durationMinutes;
+    private int durationMinutes;
 
     @NotNull
     @PastOrPresent
-    LocalDate releaseDate;
+    private LocalDate releaseDate;
 
     @NotNull
-    AgeRating ageRating;
+    private AgeRating ageRating;
 
 }

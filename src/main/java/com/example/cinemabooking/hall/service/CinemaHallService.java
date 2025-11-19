@@ -34,7 +34,8 @@ public class CinemaHallService {
         return CinemaHallMapper.toResponse(cinemaHall);
     }
 
-    private CinemaHall getCinemaHallOrThrow(Long id) {
+    @Transactional(readOnly = true)
+    public CinemaHall getCinemaHallOrThrow(Long id) {
         return cinemaHallRepository.findById(id)
                 .orElseThrow(() -> new CinemaHallNotFoundException(id));
     }
