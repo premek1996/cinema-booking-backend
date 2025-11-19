@@ -19,13 +19,13 @@ public class CinemaHall {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "rows", nullable = false)
     private int rows;
 
-    @Column(nullable = false)
+    @Column(name = "seats_per_row", nullable = false)
     private int seatsPerRow;
 
     @OneToMany(mappedBy = "cinemaHall", cascade = CascadeType.ALL, orphanRemoval = true)

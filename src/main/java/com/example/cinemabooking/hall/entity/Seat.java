@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "seats", uniqueConstraints = @UniqueConstraint(columnNames = {"hall_id", "rowNumber", "seatNumber"}))
+@Table(name = "seats", uniqueConstraints = @UniqueConstraint(columnNames = {"hall_id", "row_number", "seat_number"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,10 +16,10 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "row_number", nullable = false)
     private int rowNumber;
 
-    @Column(nullable = false)
+    @Column(name = "seat_number", nullable = false)
     private int seatNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
