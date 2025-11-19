@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
-class MovieControllerIntegrationTest {
+class MovieControllerIT {
 
     private static final String VALID_MOVIE_JSON = """
             {

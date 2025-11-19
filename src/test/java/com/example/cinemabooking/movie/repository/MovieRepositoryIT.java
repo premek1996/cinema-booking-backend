@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 @ActiveProfiles("test")
-class MovieRepositoryTest {
+class MovieRepositoryIT {
 
     private static final long NON_EXISTING_ID = 999L;
 

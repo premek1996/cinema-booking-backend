@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
-class ScreeningControllerIntegrationTest {
+class ScreeningControllerIT {
 
     private static final String BASE_URL = "/api/screening";
 

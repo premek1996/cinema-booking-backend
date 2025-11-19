@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
-class CinemaHallControllerIntegrationTest {
+class CinemaHallControllerIT {
 
     private static final String VALID_HALL_JSON = """
             {
