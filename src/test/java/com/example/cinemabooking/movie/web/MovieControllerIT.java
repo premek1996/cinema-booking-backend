@@ -1,6 +1,6 @@
 package com.example.cinemabooking.movie.web;
 
-import com.example.cinemabooking.BaseIntegrationTest;
+import com.example.cinemabooking.BaseIT;
 import com.example.cinemabooking.movie.entity.AgeRating;
 import com.example.cinemabooking.movie.entity.Movie;
 import com.example.cinemabooking.movie.repository.MovieRepository;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Transactional
 @AutoConfigureMockMvc
-class MovieControllerIT extends BaseIntegrationTest {
+class MovieControllerIT extends BaseIT {
 
     private static final String BASE_URL = "/api/movies";
 

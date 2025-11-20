@@ -5,12 +5,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
 @SpringBootTest
 @ActiveProfiles("itest")
-public abstract class BaseIntegrationTest {
+public abstract class BaseIT {
 
     static final PostgreSQLContainer<?> postgreSQLContainer;
 
