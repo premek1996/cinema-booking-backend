@@ -23,6 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class MovieControllerIT extends BaseIntegrationTest {
 
+    private static final String BASE_URL = "/api/movies";
+
     private static final String VALID_MOVIE_JSON = """
             {
               "title": "Inception",
@@ -77,7 +79,7 @@ class MovieControllerIT extends BaseIntegrationTest {
         // given – empty DB
 
         // when / then
-        mockMvc.perform(get("/api/movies"))
+        mockMvc.perform(get(BASE_URL))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
@@ -92,7 +94,7 @@ class MovieControllerIT extends BaseIntegrationTest {
         Movie saved = movieRepository.save(movie);
 
         // when / then
-        mockMvc.perform(get("/api/movies"))
+        mockMvc.perform(get(BASE_URL))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
@@ -113,7 +115,7 @@ class MovieControllerIT extends BaseIntegrationTest {
         Movie saved = movieRepository.save(movie);
 
         // when / then
-        mockMvc.perform(get("/api/movies/" + saved.getId()))
+        mockMvc.perform(get(BASE_URL + "/" + saved.getId()))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
@@ -128,7 +130,7 @@ class MovieControllerIT extends BaseIntegrationTest {
         // given – empty DB
 
         // when / then
-        mockMvc.perform(get("/api/movies/" + NON_EXISTING_ID))
+        mockMvc.perform(get(BASE_URL + "/" + NON_EXISTING_ID))
                 .andExpectAll(
                         status().isNotFound(),
                         jsonPath("$.messages[0]").exists(),
@@ -145,7 +147,7 @@ class MovieControllerIT extends BaseIntegrationTest {
     @DisplayName("should create movie when request is valid")
     void shouldCreateMovieWhenValid() throws Exception {
         // when / then
-        mockMvc.perform(post("/api/movies")
+        mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_MOVIE_JSON))
                 .andExpectAll(
@@ -162,7 +164,7 @@ class MovieControllerIT extends BaseIntegrationTest {
     @DisplayName("should return 400 when request invalid")
     void shouldReturn400WhenRequestInvalid() throws Exception {
         // when / then
-        mockMvc.perform(post("/api/movies")
+        mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(INVALID_MOVIE_JSON))
                 .andExpectAll(
@@ -179,7 +181,7 @@ class MovieControllerIT extends BaseIntegrationTest {
         movieRepository.save(movie);
 
         // when / then
-        mockMvc.perform(post("/api/movies")
+        mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_MOVIE_JSON))
                 .andExpectAll(
@@ -202,7 +204,7 @@ class MovieControllerIT extends BaseIntegrationTest {
         Movie saved = movieRepository.save(movie);
 
         // when / then
-        mockMvc.perform(delete("/api/movies/" + saved.getId()))
+        mockMvc.perform(delete(BASE_URL + "/" + saved.getId()))
                 .andExpectAll(
                         status().isNoContent()
                 );
@@ -214,7 +216,7 @@ class MovieControllerIT extends BaseIntegrationTest {
     @DisplayName("should return 404 when deleting nonexistent movie")
     void shouldReturn404WhenDeletingNonexistentMovie() throws Exception {
         // when / then
-        mockMvc.perform(delete("/api/movies/" + NON_EXISTING_ID))
+        mockMvc.perform(delete(BASE_URL + "/" + NON_EXISTING_ID))
                 .andExpectAll(
                         status().isNotFound(),
                         jsonPath("$.messages[0]").exists(),
