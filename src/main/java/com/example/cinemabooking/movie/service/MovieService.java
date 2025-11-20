@@ -2,6 +2,7 @@ package com.example.cinemabooking.movie.service;
 
 import com.example.cinemabooking.movie.dto.CreateMovieRequest;
 import com.example.cinemabooking.movie.dto.MovieResponse;
+import com.example.cinemabooking.movie.dto.UpdateMovieRequest;
 import com.example.cinemabooking.movie.entity.Movie;
 import com.example.cinemabooking.movie.mapper.MovieMapper;
 import com.example.cinemabooking.movie.repository.MovieRepository;
@@ -41,15 +42,32 @@ public class MovieService {
 
     @Transactional
     public MovieResponse createMovie(CreateMovieRequest createMovieRequest) {
-        validateUniqueTitle(createMovieRequest.getTitle());
+        validateUniqueTitle(createMovieRequest.getTitle(), null);
         Movie movie = MovieMapper.toEntity(createMovieRequest);
         return MovieMapper.toResponse(movieRepository.save(movie));
     }
 
-    private void validateUniqueTitle(String title) {
-        if (movieRepository.findByTitle(title).isPresent()) {
-            throw new MovieAlreadyExistsException(title);
-        }
+    private void validateUniqueTitle(String title, Long currentMovieId) {
+        movieRepository.findByTitle(title)
+                .filter(movie -> !movie.getId().equals(currentMovieId))
+                .ifPresent(movie -> {
+                    throw new MovieAlreadyExistsException("Movie title already exists");
+                });
+    }
+
+    @Transactional
+    public MovieResponse updateMovie(Long id, UpdateMovieRequest request) {
+        Movie movie = getMovieOrThrow(id);
+        request.getTitle().ifPresent(newTitle -> {
+            validateUniqueTitle(newTitle, id);
+            movie.setTitle(newTitle);
+        });
+        request.getDescription().ifPresent(movie::setDescription);
+        request.getGenre().ifPresent(movie::setGenre);
+        request.getDurationMinutes().ifPresent(movie::setDurationMinutes);
+        request.getReleaseDate().ifPresent(movie::setReleaseDate);
+        request.getAgeRating().ifPresent(movie::setAgeRating);
+        return MovieMapper.toResponse(movie);
     }
 
     @Transactional

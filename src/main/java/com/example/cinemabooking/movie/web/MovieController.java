@@ -2,6 +2,7 @@ package com.example.cinemabooking.movie.web;
 
 import com.example.cinemabooking.movie.dto.CreateMovieRequest;
 import com.example.cinemabooking.movie.dto.MovieResponse;
+import com.example.cinemabooking.movie.dto.UpdateMovieRequest;
 import com.example.cinemabooking.movie.service.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,11 @@ public class MovieController {
     @ResponseStatus(HttpStatus.CREATED)
     MovieResponse createMovie(@RequestBody @Valid CreateMovieRequest createMovieRequest) {
         return movieService.createMovie(createMovieRequest);
+    }
+
+    @PatchMapping("/{id}")
+    MovieResponse updateMovie(@PathVariable Long id, @RequestBody @Valid UpdateMovieRequest updateMovieRequest) {
+        return movieService.updateMovie(id, updateMovieRequest);
     }
 
     @DeleteMapping("/{id}")
