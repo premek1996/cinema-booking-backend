@@ -1,5 +1,6 @@
 package com.example.cinemabooking.movie.web;
 
+import com.example.cinemabooking.BaseIntegrationTest;
 import com.example.cinemabooking.movie.entity.AgeRating;
 import com.example.cinemabooking.movie.entity.Movie;
 import com.example.cinemabooking.movie.repository.MovieRepository;
@@ -8,9 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 @Transactional
-@ActiveProfiles("test")
-class MovieControllerIT {
+@AutoConfigureMockMvc
+class MovieControllerIT extends BaseIntegrationTest {
 
     private static final String VALID_MOVIE_JSON = """
             {

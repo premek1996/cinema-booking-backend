@@ -1,5 +1,6 @@
 package com.example.cinemabooking.hall.web;
 
+import com.example.cinemabooking.BaseIntegrationTest;
 import com.example.cinemabooking.hall.entity.CinemaHall;
 import com.example.cinemabooking.hall.entity.Seat;
 import com.example.cinemabooking.hall.repository.CinemaHallRepository;
@@ -8,9 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 @Transactional
-@ActiveProfiles("test")
-class CinemaHallControllerIT {
+@AutoConfigureMockMvc
+class CinemaHallControllerIT extends BaseIntegrationTest {
+
+    private static final String BASE_URL = "/api/halls";
 
     private static final String VALID_HALL_JSON = """
             {
@@ -77,7 +76,7 @@ class CinemaHallControllerIT {
     @Test
     @DisplayName("GET /api/halls - should return empty list when no halls exist")
     void shouldReturnEmptyListWhenNoHallsExist() throws Exception {
-        mockMvc.perform(get("/api/halls"))
+        mockMvc.perform(get(BASE_URL))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
@@ -90,7 +89,7 @@ class CinemaHallControllerIT {
     void shouldReturnListOfHalls() throws Exception {
         CinemaHall saved = cinemaHallRepository.save(hall);
 
-        mockMvc.perform(get("/api/halls"))
+        mockMvc.perform(get(BASE_URL))
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$[0].id").value(saved.getId()),
@@ -109,7 +108,7 @@ class CinemaHallControllerIT {
     void shouldReturnHallById() throws Exception {
         CinemaHall saved = cinemaHallRepository.save(hall);
 
-        mockMvc.perform(get("/api/halls/" + saved.getId()))
+        mockMvc.perform(get(BASE_URL + "/" + saved.getId()))
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$.id").value(saved.getId()),
@@ -121,7 +120,7 @@ class CinemaHallControllerIT {
     @Test
     @DisplayName("GET /api/halls/{id} - should return 404 when hall not found")
     void shouldReturn404WhenHallNotFound() throws Exception {
-        mockMvc.perform(get("/api/halls/" + NON_EXISTING_ID))
+        mockMvc.perform(get(BASE_URL + "/" + NON_EXISTING_ID))
                 .andExpectAll(
                         status().isNotFound(),
                         jsonPath("$.messages[0]").exists(),
@@ -136,7 +135,7 @@ class CinemaHallControllerIT {
     @Test
     @DisplayName("POST /api/halls - should create hall when valid")
     void shouldCreateHallWhenValid() throws Exception {
-        mockMvc.perform(post("/api/halls")
+        mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_HALL_JSON))
                 .andExpectAll(
@@ -154,7 +153,7 @@ class CinemaHallControllerIT {
     @Test
     @DisplayName("POST /api/halls - should return 400 when invalid request")
     void shouldReturn400WhenInvalid() throws Exception {
-        mockMvc.perform(post("/api/halls")
+        mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(INVALID_HALL_JSON))
                 .andExpectAll(
@@ -169,7 +168,7 @@ class CinemaHallControllerIT {
     void shouldReturn409WhenHallAlreadyExists() throws Exception {
         cinemaHallRepository.save(hall);
 
-        mockMvc.perform(post("/api/halls")
+        mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_HALL_JSON))
                 .andExpectAll(
@@ -190,7 +189,7 @@ class CinemaHallControllerIT {
     void shouldDeleteHallWhenExists() throws Exception {
         CinemaHall saved = cinemaHallRepository.save(hall);
 
-        mockMvc.perform(delete("/api/halls/" + saved.getId()))
+        mockMvc.perform(delete(BASE_URL + "/" + saved.getId()))
                 .andExpect(status().isNoContent());
 
         assertThat(cinemaHallRepository.findById(saved.getId())).isEmpty();
@@ -199,7 +198,7 @@ class CinemaHallControllerIT {
     @Test
     @DisplayName("DELETE /api/halls/{id} - should return 404 when hall not found")
     void shouldReturn404WhenDeletingNonexistentHall() throws Exception {
-        mockMvc.perform(delete("/api/halls/" + NON_EXISTING_ID))
+        mockMvc.perform(delete(BASE_URL + "/" + NON_EXISTING_ID))
                 .andExpectAll(
                         status().isNotFound(),
                         jsonPath("$.messages[0]").exists(),

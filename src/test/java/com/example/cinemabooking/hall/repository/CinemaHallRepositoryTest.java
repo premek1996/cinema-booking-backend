@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 @ActiveProfiles("test")
-class CinemaHallRepositoryIT {
+class CinemaHallRepositoryTest {
 
     @Autowired
     private CinemaHallRepository cinemaHallRepository;
