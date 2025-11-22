@@ -7,6 +7,7 @@ import lombok.Value;
 @Builder
 public class SeatResponse {
 
+    Long id;
     int rowNumber;
     int seatNumber;
 

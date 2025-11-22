@@ -2,11 +2,13 @@ package com.example.cinemabooking.hall.mapper;
 
 import com.example.cinemabooking.hall.dto.CinemaHallResponse;
 import com.example.cinemabooking.hall.dto.CreateCinemaHallRequest;
+import com.example.cinemabooking.hall.dto.SeatResponse;
 import com.example.cinemabooking.hall.entity.CinemaHall;
 import com.example.cinemabooking.hall.entity.Seat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -95,15 +97,21 @@ class CinemaHallMapperTest {
         assertThat(response.getSeatsPerRow()).isEqualTo(SEATS_PER_ROW);
 
         assertThat(response.getSeats()).hasSize(2);
-//
-//        SeatResponse s1 = response.getSeats().get(0);
-//        SeatResponse s2 = response.getSeats().get(1);
-//
-//        assertThat(s1.getRowNumber()).isEqualTo(1);
-//        assertThat(s1.getSeatNumber()).isEqualTo(1);
-//
-//        assertThat(s2.getRowNumber()).isEqualTo(1);
-//        assertThat(s2.getSeatNumber()).isEqualTo(2);
+
+        SeatResponse s1 = findSeatById(response.getSeats(), 100L);
+        SeatResponse s2 = findSeatById(response.getSeats(), 101L);
+
+        assertThat(s1.getRowNumber()).isEqualTo(1);
+        assertThat(s1.getSeatNumber()).isEqualTo(1);
+
+        assertThat(s2.getRowNumber()).isEqualTo(1);
+        assertThat(s2.getSeatNumber()).isEqualTo(2);
+    }
+
+    private SeatResponse findSeatById(List<SeatResponse> seats, Long id) {
+        return seats.stream()
+                .filter(s -> s.getId().equals(id))
+                .findAny().orElseThrow();
     }
 
 }

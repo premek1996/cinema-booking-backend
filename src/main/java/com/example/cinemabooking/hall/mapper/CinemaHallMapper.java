@@ -38,6 +38,7 @@ public class CinemaHallMapper {
 
     private static SeatResponse toSeatResponse(Seat seat) {
         return SeatResponse.builder()
+                .id(seat.getId())
                 .rowNumber(seat.getRowNumber())
                 .seatNumber(seat.getSeatNumber())
                 .build();
