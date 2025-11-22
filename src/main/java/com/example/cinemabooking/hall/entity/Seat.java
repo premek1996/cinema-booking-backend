@@ -1,20 +1,19 @@
 package com.example.cinemabooking.hall.entity;
 
+import com.example.cinemabooking.common.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Entity
-@Table(name = "seats", uniqueConstraints = @UniqueConstraint(columnNames = {"hall_id", "row_number", "seat_number"}))
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Seat {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@SuperBuilder
+@Entity
+@Table(name = "seats", uniqueConstraints = @UniqueConstraint(columnNames = {"hall_id", "row_number", "seat_number"}))
+public class Seat extends BaseEntity {
 
     @Column(name = "row_number", nullable = false)
     private int rowNumber;

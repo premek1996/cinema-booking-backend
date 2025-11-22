@@ -62,6 +62,7 @@ class ScreeningMapperTest {
 
         // then
         assertThat(result.getId()).isNull();
+        assertThat(result.getUuid()).isNotNull();
         assertThat(result.getMovie()).isEqualTo(movie);
         assertThat(result.getCinemaHall()).isEqualTo(hall);
         assertThat(result.getStartTime()).isEqualTo(START);

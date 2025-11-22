@@ -57,7 +57,8 @@ class MovieMapperTest {
         Movie result = MovieMapper.toEntity(request);
 
         // then
-        assertThat(result.getId()).isNull(); // ID always null before persist
+        assertThat(result.getId()).isNull();
+        assertThat(result.getUuid()).isNotNull();
         assertThat(result.getTitle()).isEqualTo(TITLE);
         assertThat(result.getDescription()).isEqualTo(DESCRIPTION);
         assertThat(result.getGenre()).isEqualTo(GENRE);

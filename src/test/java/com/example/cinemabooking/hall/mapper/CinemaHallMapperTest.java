@@ -69,6 +69,7 @@ class CinemaHallMapperTest {
 
         // then
         assertThat(result.getId()).isNull();
+        assertThat(result.getUuid()).isNotNull();
         assertThat(result.getName()).isEqualTo(NAME);
         assertThat(result.getRows()).isEqualTo(ROWS);
         assertThat(result.getSeatsPerRow()).isEqualTo(SEATS_PER_ROW);

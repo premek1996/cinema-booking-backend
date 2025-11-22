@@ -1,28 +1,27 @@
 package com.example.cinemabooking.screening.entity;
 
+import com.example.cinemabooking.common.jpa.BaseEntity;
 import com.example.cinemabooking.hall.entity.CinemaHall;
 import com.example.cinemabooking.movie.entity.Movie;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@SuperBuilder
 @Entity
 @Table(
         name = "screenings",
         uniqueConstraints = @UniqueConstraint(columnNames = {"hall_id", "start_time"})
 )
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Screening {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Screening extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id", nullable = false)

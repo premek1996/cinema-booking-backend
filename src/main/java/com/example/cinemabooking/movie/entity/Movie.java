@@ -1,22 +1,21 @@
 package com.example.cinemabooking.movie.entity;
 
+import com.example.cinemabooking.common.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "movies")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Movie {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@SuperBuilder
+@Entity
+@Table(name = "movies")
+public class Movie extends BaseEntity {
 
     @Column(name = "title", nullable = false, unique = true)
     private String title;
