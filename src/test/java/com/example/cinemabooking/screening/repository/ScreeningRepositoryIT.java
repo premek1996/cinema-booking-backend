@@ -1,5 +1,6 @@
 package com.example.cinemabooking.screening.repository;
 
+import com.example.cinemabooking.BaseIT;
 import com.example.cinemabooking.hall.entity.CinemaHall;
 import com.example.cinemabooking.hall.repository.CinemaHallRepository;
 import com.example.cinemabooking.movie.entity.AgeRating;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,8 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
-@ActiveProfiles("test")
-class ScreeningRepositoryTest {
+class ScreeningRepositoryIT extends BaseIT {
 
     @Autowired
     private ScreeningRepository screeningRepository;

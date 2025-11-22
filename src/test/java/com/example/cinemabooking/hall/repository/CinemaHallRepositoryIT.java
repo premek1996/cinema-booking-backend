@@ -1,5 +1,6 @@
 package com.example.cinemabooking.hall.repository;
 
+import com.example.cinemabooking.BaseIT;
 import com.example.cinemabooking.hall.entity.CinemaHall;
 import com.example.cinemabooking.hall.entity.Seat;
 import org.junit.jupiter.api.DisplayName;
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
-@ActiveProfiles("test")
-class CinemaHallRepositoryTest {
+class CinemaHallRepositoryIT extends BaseIT {
 
     @Autowired
     private CinemaHallRepository cinemaHallRepository;
