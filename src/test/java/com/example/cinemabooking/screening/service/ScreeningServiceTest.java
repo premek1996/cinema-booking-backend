@@ -95,7 +95,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should return list of screenings")
     void shouldReturnAllScreenings() {
-
         given(screeningRepository.findAll()).willReturn(List.of(screening));
 
         List<ScreeningResponse> result = screeningService.getAllScreenings();
@@ -110,7 +109,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should return empty list when no screenings exist")
     void shouldReturnEmptyList() {
-
         given(screeningRepository.findAll()).willReturn(List.of());
 
         List<ScreeningResponse> result = screeningService.getAllScreenings();
@@ -128,7 +126,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should return screening by id")
     void shouldReturnScreeningById() {
-
         given(screeningRepository.findById(ID)).willReturn(Optional.of(screening));
 
         ScreeningResponse result = screeningService.getScreeningById(ID);
@@ -143,7 +140,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should throw exception when screening not found")
     void shouldThrowWhenScreeningNotFound() {
-
         given(screeningRepository.findById(NON_EXISTING_ID)).willReturn(Optional.empty());
 
         assertThatThrownBy(() -> screeningService.getScreeningById(NON_EXISTING_ID))
@@ -160,7 +156,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should return screenings by movie id")
     void shouldReturnByMovieId() {
-
         given(screeningRepository.findByMovieId(movie.getId())).willReturn(List.of(screening));
 
         List<ScreeningResponse> result = screeningService.getScreeningsByMovie(movie.getId());
@@ -174,7 +169,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should return screenings by hall id")
     void shouldReturnByHallId() {
-
         given(screeningRepository.findByCinemaHallId(hall.getId())).willReturn(List.of(screening));
 
         List<ScreeningResponse> result = screeningService.getScreeningsByCinemaHall(hall.getId());
@@ -188,7 +182,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should return screenings by date")
     void shouldReturnByDate() {
-
         LocalDate date = LocalDate.of(2025, 1, 1);
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.plusDays(1).atStartOfDay();
@@ -210,7 +203,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should create screening when no time conflict")
     void shouldCreateScreening() {
-
         // given
         given(movieService.getMovieOrThrow(movie.getId())).willReturn(movie);
         given(cinemaHallService.getCinemaHallOrThrow(hall.getId())).willReturn(hall);
@@ -233,7 +225,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should throw exception when screening time conflicts")
     void shouldThrowWhenTimeConflict() {
-
         given(movieService.getMovieOrThrow(movie.getId())).willReturn(movie);
         given(cinemaHallService.getCinemaHallOrThrow(hall.getId())).willReturn(hall);
         given(screeningRepository.existsTimeConflict(anyLong(), any(), any())).willReturn(true);
@@ -252,7 +243,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should delete screening when exists")
     void shouldDeleteScreening() {
-
         given(screeningRepository.findById(ID)).willReturn(Optional.of(screening));
 
         screeningService.deleteScreening(ID);
@@ -264,7 +254,6 @@ class ScreeningServiceTest {
     @Test
     @DisplayName("should throw exception when deleting nonexistent screening")
     void shouldThrowWhenDeletingNonexistent() {
-
         given(screeningRepository.findById(NON_EXISTING_ID)).willReturn(Optional.empty());
 
         assertThatThrownBy(() -> screeningService.deleteScreening(NON_EXISTING_ID))

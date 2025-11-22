@@ -8,7 +8,7 @@ import com.example.cinemabooking.hall.entity.Seat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,7 +49,7 @@ class CinemaHallMapperTest {
                 .cinemaHall(cinemaHall)
                 .build();
 
-        cinemaHall.setSeats(List.of(s1, s2));
+        cinemaHall.setSeats(Set.of(s1, s2));
 
         return cinemaHall;
     }

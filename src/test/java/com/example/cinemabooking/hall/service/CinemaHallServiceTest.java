@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -54,7 +55,7 @@ class CinemaHallServiceTest {
         Seat s5 = Seat.builder().id(14L).rowNumber(2).seatNumber(2).cinemaHall(hall).build();
         Seat s6 = Seat.builder().id(15L).rowNumber(2).seatNumber(3).cinemaHall(hall).build();
 
-        hall.setSeats(List.of(s1, s2, s3, s4, s5, s6));
+        hall.setSeats(Set.of(s1, s2, s3, s4, s5, s6));
     }
 
     private CreateCinemaHallRequest sampleRequest() {
@@ -72,7 +73,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should return list of halls")
     void shouldReturnAllHalls() {
-
         // given
         given(cinemaHallRepository.findAll()).willReturn(List.of(hall));
 
@@ -91,7 +91,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should return empty list when no halls exist")
     void shouldReturnEmptyListWhenNoHallsExist() {
-
         // given
         given(cinemaHallRepository.findAll()).willReturn(List.of());
 
@@ -112,7 +111,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should return hall by id")
     void shouldReturnHallById() {
-
         // given
         given(cinemaHallRepository.findById(EXISTING_ID)).willReturn(Optional.of(hall));
 
@@ -130,7 +128,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should throw exception when hall not found")
     void shouldThrowWhenHallNotFound() {
-
         // given
         given(cinemaHallRepository.findById(NON_EXISTING_ID)).willReturn(Optional.empty());
 
@@ -149,7 +146,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should create new hall when name is unique")
     void shouldCreateNewHall() {
-
         // given
         CreateCinemaHallRequest request = sampleRequest();
 
@@ -171,7 +167,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should throw exception when hall name already exists")
     void shouldThrowWhenNameExists() {
-
         // given
         CreateCinemaHallRequest request = sampleRequest();
         given(cinemaHallRepository.findByName(request.getName())).willReturn(Optional.of(hall));
@@ -192,7 +187,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should delete hall when exists")
     void shouldDeleteHall() {
-
         // given
         given(cinemaHallRepository.findById(EXISTING_ID)).willReturn(Optional.of(hall));
 
@@ -208,7 +202,6 @@ class CinemaHallServiceTest {
     @Test
     @DisplayName("should throw exception when deleting nonexistent hall")
     void shouldThrowWhenDeletingNonexistentHall() {
-
         // given
         given(cinemaHallRepository.findById(NON_EXISTING_ID)).willReturn(Optional.empty());
 

@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -66,7 +66,7 @@ class CinemaHallControllerIT extends BaseIT {
         Seat s5 = Seat.builder().rowNumber(2).seatNumber(2).cinemaHall(hall).build();
         Seat s6 = Seat.builder().rowNumber(2).seatNumber(3).cinemaHall(hall).build();
 
-        hall.setSeats(List.of(s1, s2, s3, s4, s5, s6));
+        hall.setSeats(Set.of(s1, s2, s3, s4, s5, s6));
     }
 
     // ----------------------------------------------------------

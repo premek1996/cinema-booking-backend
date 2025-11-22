@@ -87,7 +87,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("GET /api/screening should return list of screenings")
     void shouldReturnAllScreenings() throws Exception {
-
         mockMvc.perform(get(BASE_URL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(screening.getId()));
@@ -100,7 +99,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("GET /api/screening/{id} should return screening")
     void shouldReturnScreeningById() throws Exception {
-
         mockMvc.perform(get(BASE_URL + "/" + screening.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.movieTitle").value("Inception"));
@@ -109,7 +107,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("GET /api/screening/{id} should return 404 when not found")
     void shouldReturn404WhenNotFound() throws Exception {
-
         mockMvc.perform(get(BASE_URL + "/9999"))
                 .andExpect(status().isNotFound());
     }
@@ -121,7 +118,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("GET /movie/{movieId} should return screenings for movie")
     void shouldReturnByMovie() throws Exception {
-
         mockMvc.perform(get(BASE_URL + "/movie/" + movie.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].movieId").value(movie.getId()));
@@ -134,7 +130,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("GET /hall/{hallId} should return screenings for hall")
     void shouldReturnByHall() throws Exception {
-
         mockMvc.perform(get(BASE_URL + "/hall/" + hall.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].cinemaHallId").value(hall.getId()));
@@ -147,7 +142,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("GET /date/{date} should return screenings on given date")
     void shouldReturnByDate() throws Exception {
-
         mockMvc.perform(get(BASE_URL + "/date/2040-01-01"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(screening.getId()));
@@ -160,7 +154,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("POST should create screening when valid")
     void shouldCreateScreening() throws Exception {
-
         String json = """
                 {
                   "movieId": %d,
@@ -182,7 +175,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("POST should return 400 for invalid JSON")
     void shouldReturn400ForInvalidJson() throws Exception {
-
         String invalidJson = """
                 {
                   "movieId": null,
@@ -202,7 +194,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("POST should return 409 when time conflict occurs")
     void shouldReturn409OnConflict() throws Exception {
-
         // screening from setup:
         // 2040-01-01 14:00 → 16:28
         String conflictJson = """
@@ -228,7 +219,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("DELETE should remove screening when exists")
     void shouldDeleteScreening() throws Exception {
-
         mockMvc.perform(delete(BASE_URL + "/" + screening.getId()))
                 .andExpect(status().isNoContent());
 
@@ -238,7 +228,6 @@ class ScreeningControllerIT extends BaseIT {
     @Test
     @DisplayName("DELETE should return 404 when not exists")
     void shouldReturn404WhenDeleteNonExisting() throws Exception {
-
         mockMvc.perform(delete(BASE_URL + "/99999"))
                 .andExpect(status().isNotFound());
     }

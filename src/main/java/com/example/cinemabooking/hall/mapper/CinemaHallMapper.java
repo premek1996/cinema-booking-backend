@@ -7,6 +7,7 @@ import com.example.cinemabooking.hall.entity.CinemaHall;
 import com.example.cinemabooking.hall.entity.Seat;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CinemaHallMapper {
@@ -29,7 +30,7 @@ public class CinemaHallMapper {
                 .build();
     }
 
-    private static List<SeatResponse> mapSeats(List<Seat> seats) {
+    private static List<SeatResponse> mapSeats(Set<Seat> seats) {
         return seats.stream()
                 .map(CinemaHallMapper::toSeatResponse)
                 .collect(Collectors.toList());

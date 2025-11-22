@@ -2,6 +2,7 @@ package com.example.cinemabooking.movie.service;
 
 import com.example.cinemabooking.movie.dto.CreateMovieRequest;
 import com.example.cinemabooking.movie.dto.MovieResponse;
+import com.example.cinemabooking.movie.dto.UpdateMovieRequest;
 import com.example.cinemabooking.movie.entity.AgeRating;
 import com.example.cinemabooking.movie.entity.Movie;
 import com.example.cinemabooking.movie.repository.MovieRepository;
@@ -52,7 +53,7 @@ class MovieServiceTest {
                 .build();
     }
 
-    private CreateMovieRequest sampleRequest() {
+    private CreateMovieRequest createMovieRequest() {
         return CreateMovieRequest.builder()
                 .title("Inception")
                 .description("Dreams")
@@ -63,6 +64,16 @@ class MovieServiceTest {
                 .build();
     }
 
+    private UpdateMovieRequest updateMovieRequest() {
+        return UpdateMovieRequest.builder()
+                .title(Optional.of("The Dark Knight"))
+                .description(Optional.of("Batman fights the Joker in Gotham City."))
+                .genre(Optional.of("Action"))
+                .durationMinutes(Optional.of(152))
+                .releaseDate(Optional.of(LocalDate.of(2008, 7, 16)))
+                .build();
+    }
+
     // ----------------------------------------
     // GET ALL
     // ----------------------------------------
@@ -70,7 +81,6 @@ class MovieServiceTest {
     @Test
     @DisplayName("should return list of movies when getAllMovies() is called")
     void shouldReturnAllMovies() {
-
         // given
         given(movieRepository.findAll()).willReturn(List.of(movie));
 
@@ -88,7 +98,6 @@ class MovieServiceTest {
     @Test
     @DisplayName("should return empty list when no movies exist")
     void shouldReturnEmptyListWhenNoMoviesExist() {
-
         // given
         given(movieRepository.findAll()).willReturn(List.of());
 
@@ -109,7 +118,6 @@ class MovieServiceTest {
     @Test
     @DisplayName("should return movie when found by id")
     void shouldReturnMovieById() {
-
         // given
         given(movieRepository.findById(EXISTING_ID)).willReturn(Optional.of(movie));
 
@@ -126,7 +134,6 @@ class MovieServiceTest {
     @Test
     @DisplayName("should throw MovieNotFoundException when movie does not exist")
     void shouldThrowExceptionWhenMovieNotFound() {
-
         // given
         given(movieRepository.findById(NON_EXISTING_ID)).willReturn(Optional.empty());
 
@@ -145,9 +152,8 @@ class MovieServiceTest {
     @Test
     @DisplayName("should save movie when title not exists")
     void shouldSaveNewMovie() {
-
         // given
-        CreateMovieRequest request = sampleRequest();
+        CreateMovieRequest request = createMovieRequest();
         given(movieRepository.findByTitle(request.getTitle())).willReturn(Optional.empty());
         given(movieRepository.save(any(Movie.class))).willReturn(movie);
 
@@ -165,9 +171,8 @@ class MovieServiceTest {
     @Test
     @DisplayName("should throw exception when movie already exists")
     void shouldThrowExceptionWhenMovieAlreadyExists() {
-
         // given
-        CreateMovieRequest request = sampleRequest();
+        CreateMovieRequest request = createMovieRequest();
         given(movieRepository.findByTitle(request.getTitle())).willReturn(Optional.of(movie));
 
         // when + then
@@ -180,13 +185,51 @@ class MovieServiceTest {
     }
 
     // ----------------------------------------
+    // UPDATE
+    // ----------------------------------------
+    @Test
+    @DisplayName("should throw MovieNotFoundException when updating nonexistent movie")
+    void shouldThrowWhenUpdatingNonexistentMovie() {
+        // given
+        given(movieRepository.findById(NON_EXISTING_ID)).willReturn(Optional.empty());
+
+        // when + then
+        assertThatThrownBy(() -> movieService.updateMovie(NON_EXISTING_ID, updateMovieRequest()))
+                .isInstanceOf(MovieNotFoundException.class);
+
+        verify(movieRepository).findById(NON_EXISTING_ID);
+        verifyNoMoreInteractions(movieRepository);
+    }
+
+    @Test
+    @DisplayName("should update movie")
+    void shouldUpdateMovie() {
+        // given
+        UpdateMovieRequest updateMovieRequest = updateMovieRequest();
+        given(movieRepository.findById(EXISTING_ID)).willReturn(Optional.of(movie));
+        given(movieRepository.findByTitle(updateMovieRequest.getTitle().get())).willReturn(Optional.empty());
+
+        // when + then
+        MovieResponse response = movieService.updateMovie(EXISTING_ID, updateMovieRequest);
+        assertThat(response.getId()).isEqualTo(EXISTING_ID);
+        assertThat(response.getTitle()).isEqualTo(updateMovieRequest.getTitle().get());
+        assertThat(response.getGenre()).isEqualTo(updateMovieRequest.getGenre().get());
+        assertThat(response.getDurationMinutes()).isEqualTo(updateMovieRequest.getDurationMinutes().get());
+        assertThat(response.getReleaseDate()).isEqualTo(updateMovieRequest.getReleaseDate().get());
+        assertThat(response.getAgeRating()).isEqualTo(movie.getAgeRating());
+
+        verify(movieRepository).findById(EXISTING_ID);
+        verify(movieRepository).findByTitle(updateMovieRequest.getTitle().get());
+        verifyNoMoreInteractions(movieRepository);
+    }
+
+    // ----------------------------------------
     // DELETE
     // ----------------------------------------
 
     @Test
     @DisplayName("should delete movie when exists")
     void shouldDeleteMovie() {
-
         // given
         given(movieRepository.findById(EXISTING_ID)).willReturn(Optional.of(movie));
 
@@ -202,7 +245,6 @@ class MovieServiceTest {
     @Test
     @DisplayName("should throw MovieNotFoundException when deleting nonexistent movie")
     void shouldThrowWhenDeletingNonexistentMovie() {
-
         // given
         given(movieRepository.findById(NON_EXISTING_ID)).willReturn(Optional.empty());
 
